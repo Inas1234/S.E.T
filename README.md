@@ -1,3 +1,3 @@
 # S.E.T
-Sistem evidencije travnik
+Sistem evidencije Travnik
 - MK-CNC
