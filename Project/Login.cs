@@ -150,14 +150,14 @@ namespace Project
                                 UP = time.Subtract(PP);
                                 sabrano += UP;
 
-                                string imbouttoblow = new DateTime(sabrano.Ticks).ToString("HH:mm:ss"); 
+                                string UKP = new DateTime(sabrano.Ticks).ToString("HH:mm:ss"); 
 
                                 AutoClosingMessageBox.Show("Pauza je završena!", "Pauza", 1500);
 
                                 using (MySqlConnection connection8 = new MySqlConnection("Datasource = 0.0.0.0;username=Remote;password=; database=project"))
                                 {
                                     connection8.Open();
-                                    MySqlCommand cmd2 = new MySqlCommand("UPDATE tasks SET ukupna_pauza = '" + imbouttoblow + "' WHERE BarKod ='" + textBox1.Text + "'", connection8);
+                                    MySqlCommand cmd2 = new MySqlCommand("UPDATE tasks SET ukupna_pauza = '" + UKP + "' WHERE BarKod ='" + textBox1.Text + "'", connection8);
                                     cmd2.ExecuteNonQuery();
                                     connection8.Close();
                                 }
@@ -193,7 +193,7 @@ namespace Project
                                 {
 
                                     string TimeP = sdr["vrijeme_pocetka"].ToString();
-                                    string ass = sdr["EST"].ToString();
+                                    string est = sdr["EST"].ToString();
 
                                     string pocP = sdr["pocetak_pauze"].ToString();
                                     string krP = sdr["kraj_pauze"].ToString();
@@ -207,28 +207,27 @@ namespace Project
                                     TimeSpan dateU = time.Subtract(TimeL);
                                     DateTime DateU = DateTime.Today + dateU;
 
-                                    string sex = new DateTime(dateU.Ticks).ToString("HH:mm:ss");
-                                    string KenoSex = "";
-                                    bool mligas = false;
+                                    string UKstring = "";
+                                    bool imaPreiliPod = false;
 
-                                    DateTime TimePO = Convert.ToDateTime(ass);
+                                    DateTime TimePO = Convert.ToDateTime(est);
                                     DateTime TIMEPOU = TimePO.Subtract(dateU);
-                                    long timpou = 864000000000 - TIMEPOU.TimeOfDay.Ticks;
-                                    TimeSpan deezNuts = new TimeSpan(timpou);
-                                    string sex2 = new DateTime(deezNuts.Ticks).ToString("HH:mm:ss");
+                                    long ticks = 864000000000 - TIMEPOU.TimeOfDay.Ticks;
+                                    TimeSpan timepou = new TimeSpan(ticks);
+                                    string PrePO = new DateTime(timepou.Ticks).ToString("HH:mm:ss");
 
 
-                                    TimeSpan Keno = dateU.Subtract(sabrano);
-                                    KenoSex = new DateTime(Keno.Ticks).ToString("HH:mm:ss");
-                                    mligas = true;
+                                    TimeSpan UK = dateU.Subtract(sabrano);
+                                    UKstring = new DateTime(UK.Ticks).ToString("HH:mm:ss");
+                                    imaPreiliPod = true;
 
 
                                     if (DateU > TimePO)
                                     {
                                         sdr.Close();
-                                        if (!mligas)
+                                        if (!imaPreiliPod)
                                         {
-                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + KenoSex + "', uradjeno = 'YES', podbacaj = '" + sex2 + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
+                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + UKstring + "', uradjeno = 'YES', podbacaj = '" + PrePO + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
                                             cmd.ExecuteNonQuery();
                                             AutoClosingMessageBox.Show("Zadatak je urađen!", "Zadatak", 1500);
                                             UpdateTasks();
@@ -237,7 +236,7 @@ namespace Project
                                         }
                                         else
                                         {
-                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + KenoSex + "', uradjeno = 'YES', podbacaj = '" + sex2 + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
+                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + UKstring + "', uradjeno = 'YES', podbacaj = '" + PrePO + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
                                             cmd.ExecuteNonQuery();
                                             AutoClosingMessageBox.Show("Zadatak je urađen!", "Zadatak", 1500);
                                             UpdateTasks();
@@ -250,9 +249,9 @@ namespace Project
                                     {
 
                                         sdr.Close();
-                                        if(!mligas)
+                                        if(!imaPreiliPod)
                                         {
-                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + KenoSex + "', uradjeno = 'YES', prebacaj = '" + TIMEPOU.ToString("HH:mm:ss") + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
+                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + UKstring + "', uradjeno = 'YES', prebacaj = '" + TIMEPOU.ToString("HH:mm:ss") + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
                                             cmd.ExecuteNonQuery();
                                             AutoClosingMessageBox.Show("Zadatak je urađen!", "Zadatak", 1500);
                                             UpdateTasks();
@@ -261,7 +260,7 @@ namespace Project
                                         }
                                         else
                                         {
-                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + KenoSex + "', uradjeno = 'YES', prebacaj = '" + TIMEPOU.ToString("HH:mm:ss") + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
+                                            MySqlCommand cmd = new MySqlCommand("UPDATE tasks SET vrijeme_kraja ='" + time.ToString("HH:mm:ss") + "', ukupno_vrijeme_rada = '" + UKstring + "', uradjeno = 'YES', prebacaj = '" + TIMEPOU.ToString("HH:mm:ss") + "' WHERE BarKod ='" + textBox1.Text + "'", connection4);
                                             cmd.ExecuteNonQuery();
                                             AutoClosingMessageBox.Show("Zadatak je urađen!", "Zadatak", 1500);
                                             UpdateTasks();
